@@ -695,19 +695,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "tokenAmount",
-						"type": "uint256"
-					}
-				],
-				"name": "provideInitialLiquidity",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "address",
 						"name": "beneficiary",
 						"type": "address"
@@ -938,6 +925,29 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "beneficiary",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "duration",
+						"type": "uint256"
+					}
+				],
+				"name": "vestAdditionalTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -1221,11 +1231,11 @@
 			]
 		},
 		"octo.sol": {
-			"keccak256": "0xd99cdcc8c2635e53867af374e825243fb2e147516789b23298f43c2929893578",
+			"keccak256": "0xab911a8fe16e88a2289d1fcaaf43a3b9985b9fc865be590f4c834ee1db4ef0f0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d2de1a6f03f2a6205203cce2dec82975fdf4bf764a12a557d55862d254549013",
-				"dweb:/ipfs/Qma97HR3AcYn5CZMY7YkgAyQjQhZ2pKjxyzDLUkzEP77g4"
+				"bzz-raw://829ff8a7b332c081e732d7b9e75547d888e6c3c7bdf5b7d848e8c5f89912e9a1",
+				"dweb:/ipfs/QmSPkhs9cMqsfCm17FpQuFjW54rWqRjPSNjApVRjx1as2V"
 			]
 		}
 	},

@@ -2,7 +2,7 @@
 /**
 Website: https://octo-labs.io/
 Twitter: https://twitter.com/LabsOcto
-Telegram: https://t.me/+oR0axOl0S-swMTE1
+Telegram: https://t.me/LabsOcto
 */
 /**
  ██████╗   ██████╗ ████████╗ ██████╗     ██╗      █████╗ ██████╗ ███████╗
@@ -66,28 +66,19 @@ contract OCTO is ERC20, ReentrancyGuard, Ownable {
         uint256 preSaleSupply = totalSupply * 20 / 100;
         uint256 ownerSupply = totalSupply - devWalletSupply - preSaleSupply;
 
-        _mint(address(this), devWalletSupply);
+        uint256 vestingAmount = (devWalletSupply * 75) / 100;
+        uint256 nonVestingAmount = devWalletSupply - vestingAmount;
+
+        _mint(developmentWallet, nonVestingAmount);
+        _mint(address(this), vestingAmount);
         _mint(preSaleWallet, preSaleSupply);
         _mint(msg.sender, ownerSupply);
 
-        _vestTokens(developmentWallet, devWalletSupply, block.timestamp, 365 days); // 1-year vesting period
+        _vestTokens(developmentWallet, vestingAmount, block.timestamp, 365 days); // 1-year vesting period
     }
 
     function setUniswapPair(address pair) external onlyOwner {
         uniswapPair = IUniswapV2Pair(pair);
-    }
-
-    function provideInitialLiquidity(uint256 tokenAmount) external onlyOwner {
-        uint256 ethAmount = 1 ether;
-        _approve(address(this), address(uniswapRouter), tokenAmount);
-        uniswapRouter.addLiquidityETH{value: ethAmount}(
-            address(this),
-            tokenAmount,
-            0, 0,
-            owner(),
-            block.timestamp
-        );
-        emit LiquidityAdded(msg.sender, tokenAmount, ethAmount);
     }
 
     function updateReward(address account) internal {
@@ -154,7 +145,6 @@ contract OCTO is ERC20, ReentrancyGuard, Ownable {
         uniswapPair.transfer(msg.sender, amount);
         if (lpTokenBalance[msg.sender] == 0) {
             isLiquidityProvider[msg.sender] = false;
-            // Remove from liquidityProviders list
             for (uint256 i = 0; i < liquidityProviders.length; i++) {
                 if (liquidityProviders[i] == msg.sender) {
                     liquidityProviders[i] = liquidityProviders[liquidityProviders.length - 1];
@@ -185,6 +175,11 @@ contract OCTO is ERC20, ReentrancyGuard, Ownable {
         vestingStart[beneficiary] = start;
 
         emit TokensVested(beneficiary, amount, start, duration);
+    }
+
+    function vestAdditionalTokens(address beneficiary, uint256 amount, uint256 duration) external onlyOwner {
+        require(balanceOf(address(this)) >= amount, "Not enough tokens in contract to vest");
+        _vestTokens(beneficiary, amount, block.timestamp, duration);
     }
 
     function releaseVestedTokens() external {
@@ -238,8 +233,8 @@ contract OCTO is ERC20, ReentrancyGuard, Ownable {
 
         if (isLiquidityProvider[sender]) {
             taxAmount = (amount * lpTaxRate) / 100;
-            developmentShare = taxAmount; // All LP tax goes to the development wallet
-            liquidityShare = 0; // No liquidity share for LP tax
+            developmentShare = taxAmount; 
+            liquidityShare = 0; 
         } else {
             taxAmount = (amount * taxRate) / 100;
             liquidityShare = (taxAmount * 75) / 100;
@@ -250,7 +245,7 @@ contract OCTO is ERC20, ReentrancyGuard, Ownable {
 
         if (liquidityShare > 0) {
             super._transfer(sender, address(this), liquidityShare);
-            _addLiquidity(liquidityShare); // Add liquidity only if there is a liquidity share
+            _addLiquidity(liquidityShare); 
         }
 
         if (developmentShare > 0) {
@@ -259,8 +254,8 @@ contract OCTO is ERC20, ReentrancyGuard, Ownable {
 
         super._transfer(sender, recipient, amountAfterTax);
 
-        _addLiquidityMiningRewards(sender);  // Update liquidity mining rewards for the sender
-        _addLiquidityMiningRewards(recipient);  // Update liquidity mining rewards for the recipient
+        _addLiquidityMiningRewards(sender);  
+        _addLiquidityMiningRewards(recipient); 
     }
 
     function _addLiquidity(uint256 tokenAmount) private {
