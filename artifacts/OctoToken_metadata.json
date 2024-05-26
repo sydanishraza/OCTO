@@ -1,0 +1,1018 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "router",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_developmentWallet",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "allowance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "needed",
+						"type": "uint256"
+					}
+				],
+				"name": "ERC20InsufficientAllowance",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "needed",
+						"type": "uint256"
+					}
+				],
+				"name": "ERC20InsufficientBalance",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "approver",
+						"type": "address"
+					}
+				],
+				"name": "ERC20InvalidApprover",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					}
+				],
+				"name": "ERC20InvalidReceiver",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "ERC20InvalidSender",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					}
+				],
+				"name": "ERC20InvalidSpender",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"name": "OwnableInvalidOwner",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "OwnableUnauthorizedAccount",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "Approval",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "provider",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "tokenAmount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "ethAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "LiquidityAdded",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "provider",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "LiquidityRemoved",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "reward",
+						"type": "uint256"
+					}
+				],
+				"name": "RewardPaid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "Transfer",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					}
+				],
+				"name": "allowance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "approve",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "balanceOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "burn",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "burnFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "currentRewardRate",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "decimals",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "developmentWallet",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "earned",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "finalRewardRate",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getReward",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initialRewardRate",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastUpdateTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "liquidityBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "lpTokenBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "name",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "provideInitialLiquidity",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "rewardPerToken",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "rewardPerTokenStored",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "pair",
+						"type": "address"
+					}
+				],
+				"name": "setUniswapPair",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "stake",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "stakeStartTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "symbol",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "taxRate",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "transfer",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "transferFrom",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "uniswapPair",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV2Pair",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "uniswapRouter",
+				"outputs": [
+					{
+						"internalType": "contract IUniswapV2Router02",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"errors": {
+				"ERC20InsufficientAllowance(address,uint256,uint256)": [
+					{
+						"details": "Indicates a failure with the `spender`’s `allowance`. Used in transfers.",
+						"params": {
+							"allowance": "Amount of tokens a `spender` is allowed to operate with.",
+							"needed": "Minimum amount required to perform a transfer.",
+							"spender": "Address that may be allowed to operate on tokens without being their owner."
+						}
+					}
+				],
+				"ERC20InsufficientBalance(address,uint256,uint256)": [
+					{
+						"details": "Indicates an error related to the current `balance` of a `sender`. Used in transfers.",
+						"params": {
+							"balance": "Current balance for the interacting account.",
+							"needed": "Minimum amount required to perform a transfer.",
+							"sender": "Address whose tokens are being transferred."
+						}
+					}
+				],
+				"ERC20InvalidApprover(address)": [
+					{
+						"details": "Indicates a failure with the `approver` of a token to be approved. Used in approvals.",
+						"params": {
+							"approver": "Address initiating an approval operation."
+						}
+					}
+				],
+				"ERC20InvalidReceiver(address)": [
+					{
+						"details": "Indicates a failure with the token `receiver`. Used in transfers.",
+						"params": {
+							"receiver": "Address to which tokens are being transferred."
+						}
+					}
+				],
+				"ERC20InvalidSender(address)": [
+					{
+						"details": "Indicates a failure with the token `sender`. Used in transfers.",
+						"params": {
+							"sender": "Address whose tokens are being transferred."
+						}
+					}
+				],
+				"ERC20InvalidSpender(address)": [
+					{
+						"details": "Indicates a failure with the `spender` to be approved. Used in approvals.",
+						"params": {
+							"spender": "Address that may be allowed to operate on tokens without being their owner."
+						}
+					}
+				],
+				"OwnableInvalidOwner(address)": [
+					{
+						"details": "The owner is not a valid owner account. (eg. `address(0)`)"
+					}
+				],
+				"OwnableUnauthorizedAccount(address)": [
+					{
+						"details": "The caller account is not authorized to perform an operation."
+					}
+				]
+			},
+			"events": {
+				"Approval(address,address,uint256)": {
+					"details": "Emitted when the allowance of a `spender` for an `owner` is set by a call to {approve}. `value` is the new allowance."
+				},
+				"Transfer(address,address,uint256)": {
+					"details": "Emitted when `value` tokens are moved from one account (`from`) to another (`to`). Note that `value` may be zero."
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"allowance(address,address)": {
+					"details": "See {IERC20-allowance}."
+				},
+				"approve(address,uint256)": {
+					"details": "See {IERC20-approve}. NOTE: If `value` is the maximum `uint256`, the allowance is not updated on `transferFrom`. This is semantically equivalent to an infinite approval. Requirements: - `spender` cannot be the zero address."
+				},
+				"balanceOf(address)": {
+					"details": "See {IERC20-balanceOf}."
+				},
+				"burn(uint256)": {
+					"details": "Destroys a `value` amount of tokens from the caller. See {ERC20-_burn}."
+				},
+				"burnFrom(address,uint256)": {
+					"details": "Destroys a `value` amount of tokens from `account`, deducting from the caller's allowance. See {ERC20-_burn} and {ERC20-allowance}. Requirements: - the caller must have allowance for ``accounts``'s tokens of at least `value`."
+				},
+				"decimals()": {
+					"details": "Returns the number of decimals used to get its user representation. For example, if `decimals` equals `2`, a balance of `505` tokens should be displayed to a user as `5.05` (`505 / 10 ** 2`). Tokens usually opt for a value of 18, imitating the relationship between Ether and Wei. This is the default value returned by this function, unless it's overridden. NOTE: This information is only used for _display_ purposes: it in no way affects any of the arithmetic of the contract, including {IERC20-balanceOf} and {IERC20-transfer}."
+				},
+				"name()": {
+					"details": "Returns the name of the token."
+				},
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+				},
+				"symbol()": {
+					"details": "Returns the symbol of the token, usually a shorter version of the name."
+				},
+				"totalSupply()": {
+					"details": "See {IERC20-totalSupply}."
+				},
+				"transfer(address,uint256)": {
+					"details": "See {IERC20-transfer}. Requirements: - `to` cannot be the zero address. - the caller must have a balance of at least `value`."
+				},
+				"transferFrom(address,address,uint256)": {
+					"details": "See {IERC20-transferFrom}. Emits an {Approval} event indicating the updated allowance. This is not required by the EIP. See the note at the beginning of {ERC20}. NOTE: Does not update the allowance if the current allowance is the maximum `uint256`. Requirements: - `from` and `to` cannot be the zero address. - `from` must have a balance of at least `value`. - the caller must have allowance for ``from``'s tokens of at least `value`."
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"octo.sol": "OctoToken"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/access/Ownable.sol": {
+			"keccak256": "0xde13f6ab310a659b9732f7f7ea3eed7c4d9925cc72e77e6554b2126563a143f0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2176f1c5e871613bd6502558cc98d268e92167dcd546d15941587a670a48d4eb",
+				"dweb:/ipfs/QmboYR7jbENha8ahFbWeHu2pHr5jjA9PuDzRDJHLvGDCBh"
+			]
+		},
+		"@openzeppelin/contracts/interfaces/draft-IERC6093.sol": {
+			"keccak256": "0x60c65f701957fdd6faea1acb0bb45825791d473693ed9ecb34726fdfaa849dd7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ea290300e0efc4d901244949dc4d877fd46e6c5e43dc2b26620e8efab3ab803f",
+				"dweb:/ipfs/QmcLLJppxKeJWqHxE2CUkcfhuRTgHSn8J4kijcLa5MYhSt"
+			]
+		},
+		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
+			"keccak256": "0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34",
+				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
+			"keccak256": "0x983c16a0950970880ced739c26b8970226a14c8ad904bfcf6d66ae52d0b3f382",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://abff634271d1404181864a03c066b7ed3d84431a6dba6b1c19a9d31f84d71418",
+				"dweb:/ipfs/QmWqPYs8DenCiJzwwN5LKGzL9EefvhE1YVzz9pRX6skduk"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0xc6a8ff0ea489379b61faa647490411b80102578440ab9d84e9a957cc12164e70",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0ea104e577e63faea3b69c415637e99e755dcbf64c5833d7140c35a714d6d90c",
+				"dweb:/ipfs/Qmau6x4Ns9XdyynRCNNp3RhLqijJjFm7z5fyZazfYFGYdq"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol": {
+			"keccak256": "0x2659248df25e34000ed214b3dc8da2160bc39874c992b477d9e2b1b3283dc073",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c345af1b0e7ea28d1216d6a04ab28f5534a5229b9edf9ca3cd0e84950ae58d26",
+				"dweb:/ipfs/QmY63jtSrYpLRe8Gj1ep2vMDCKxGNNG3hnNVKBVnrs2nmA"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+			"keccak256": "0xaa761817f6cd7892fcf158b3c776b34551cde36f48ff9703d53898bc45a94ea2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0ad7c8d4d08938c8dfc43d75a148863fb324b80cf53e0a36f7e5a4ac29008850",
+				"dweb:/ipfs/QmcrhfPgVNf5mkdhQvy1pMv51TFokD3Y4Wa5WZhFqVh8UV"
+			]
+		},
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12",
+				"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
+			]
+		},
+		"@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol": {
+			"keccak256": "0xa7a60cac7084df79f5b6f5712cabadfc0bfcdb01b87fefa69ff826247b4ec4cd",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9342b5600161690c567177b893785f443c80a4bf779a7dd80b038b3cdf5366c1",
+				"dweb:/ipfs/QmSg8eL7wHJHQic3KZVYjWFJChF5nTyTbA9n8YFRD9Lhq7"
+			]
+		},
+		"@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol": {
+			"keccak256": "0x506c650dfe2dfaf284cacfd05ba003521ce26cbcc2b1f881908068852a9d657e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e63ba4e791689ab53b00bced6962674c47658e0fa0895a151ddd3097d0747025",
+				"dweb:/ipfs/QmdRSS8WSE2Fvr5BtPn3VRwPdpH5fMxnZA4BYeALs7Ar6g"
+			]
+		},
+		"@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router01.sol": {
+			"keccak256": "0x2698329f35127559498658df11c438943f02c3e5bae5635689795019947dec54",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0316ab50a9e7e14f9b46df16b9fd29c5e5fd67f15ee3a944b501b60f5bb24d77",
+				"dweb:/ipfs/QmRYXcwSPhBGGtwDxJ3MFASkPvSMceXNWicVBT6yEeAdun"
+			]
+		},
+		"@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol": {
+			"keccak256": "0x5587f172bf56ac4435d970e05b16aec3e28323fb3aea3e4f5f568537bbbf7d3f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6ca13b38e435e197709eb1e3f449c68543e20e18aa5456f21af4185fb916efbe",
+				"dweb:/ipfs/QmWwmMwFtjLh9jggHqJPuYk4jvGLyJzSQG9Kvj2Asi35v9"
+			]
+		},
+		"octo.sol": {
+			"keccak256": "0x4b644aaf10cadd2dc2f653197b9903f7870722142c1e01460a1447ff5fd40d18",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://45d789eaaf4d75ceeae279af62ab60e2a53cef1e364922bdd6f6f35b46d29a27",
+				"dweb:/ipfs/QmSTRjTpMT42dn3x2cJxbHodsevzqrqmcUXXwXZUdsYq5o"
+			]
+		}
+	},
+	"version": 1
+}
